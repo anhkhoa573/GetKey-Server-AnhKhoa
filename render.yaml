@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: key-system-v2
+    name: getkey-server-anhkhoa
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 import hashlib
 import secrets
 import string
@@ -7,15 +7,17 @@ import os
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.secret_key = "change-this-secret-key-in-production"
+app.secret_key = "anhkhoa-secret-key-2024-change-me"
+app.permanent_session_lifetime = timedelta(days=1)
 
 DB_PATH = "keys.db"
 
-# THAY BANG LINK THAT CUA BAN
-LINK4M_URL = "https://link4m.net/cfKII"
-
-# THAY BANG DOMAIN THAT CUA BAN
-CALLBACK_URL = "https://your-domain.onrender.com/callback"
+# ============================================================
+# CAU HINH
+# ============================================================
+LINK4M_URL = "https://link4m.net/ov9vn2T9"
+CALLBACK_URL = "https://getkey-server-anhkhoa.onrender.com/callback"
+# ============================================================
 
 
 def init_db():
@@ -101,14 +103,12 @@ def create_key_for_session(session_id, device_fp, game, duration):
     key_hash = hash_key(key_plain)
     now = datetime.utcnow()
     expires = now + timedelta(hours=duration)
-    max_uses = 1
     conn = sqlite3.connect(DB_PATH)
     conn.execute("""
         INSERT INTO keys (key_hash, key_plain, device_fp, game, duration_hours,
                           created_at, expires_at, uses, max_uses)
-        VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)
-    """, (key_hash, key_plain, device_fp, game, duration, now.isoformat(),
-          expires.isoformat(), max_uses))
+        VALUES (?, ?, ?, ?, ?, ?, ?, 0, 1)
+    """, (key_hash, key_plain, device_fp, game, duration, now.isoformat(), expires.isoformat()))
     conn.commit()
     conn.close()
     return key_plain
@@ -135,19 +135,24 @@ def api_start():
     device_fp = get_device_fingerprint(request)
     session_id = create_session(game, duration, device_fp)
 
-    full_link = LINK4M_URL + "?r=" + CALLBACK_URL + "?session=" + session_id
+    session["pending_session"] = session_id
+    session["device_fp"] = device_fp
+    session.permanent = True
 
     return jsonify({
         "ok": True,
         "session_id": session_id,
-        "bypass_url": full_link
+        "bypass_url": LINK4M_URL
     })
 
 
 @app.route("/callback")
 def callback():
-    session_id = request.args.get("session", "")
-    device_fp = get_device_fingerprint(request)
+    device_fp = session.get("device_fp") or get_device_fingerprint(request)
+    session_id = session.get("pending_session", "")
+
+    if not session_id:
+        session_id = request.args.get("session", "")
 
     if not session_id:
         return redirect(url_for("index"))
@@ -159,8 +164,10 @@ def callback():
     if session_data["status"] == "verified":
         conn = sqlite3.connect(DB_PATH)
         conn.row_factory = sqlite3.Row
-        row = conn.execute("SELECT key_plain FROM keys WHERE device_fp = ? ORDER BY id DESC LIMIT 1",
-                          (device_fp,)).fetchone()
+        row = conn.execute(
+            "SELECT key_plain FROM keys WHERE device_fp = ? ORDER BY id DESC LIMIT 1",
+            (device_fp,)
+        ).fetchone()
         conn.close()
         if row:
             return render_template("key.html", key=row["key_plain"])
@@ -168,6 +175,8 @@ def callback():
 
     mark_session_verified(session_id)
     key = create_key_for_session(session_id, device_fp, session_data["game"], 24)
+
+    session.pop("pending_session", None)
 
     return render_template("key.html", key=key)
 
