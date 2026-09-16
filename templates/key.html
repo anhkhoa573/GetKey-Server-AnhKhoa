@@ -22,11 +22,7 @@ body{display:flex;align-items:center;justify-content:center;padding:20px;min-hei
 @keyframes keyGlow{0%,100%{box-shadow:0 0 30px rgba(0,255,136,.3)}50%{box-shadow:0 0 50px rgba(0,255,136,.6)}}
 .key-box::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,255,136,.2),transparent);animation:keyShine 3s ease infinite}
 @keyframes keyShine{0%{left:-100%}50%,100%{left:100%}}
-.info{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.info-item{background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
-.info-item .val{font-family:Orbitron,sans-serif;font-size:1.1rem;color:var(--cyan);font-weight:700}
-.info-item .lbl{font-size:.68rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
-.btn{width:100%;padding:16px;border:none;border-radius:14px;font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:8px;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;box-shadow:0 10px 30px rgba(0,229,255,.3)}
+.btn{width:100%;padding:16px;border:none;border-radius:14px;font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:8px;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;box-shadow:0 10px 30px rgba(0,229,255,.3);text-decoration:none;display:block;text-align:center}
 .btn:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,229,255,.5)}
 .btn-secondary{background:var(--input-bg);color:var(--text);border:1px solid var(--border)}
 .warning{background:linear-gradient(135deg,rgba(255,51,85,.1),rgba(255,45,149,.05));border:1px solid rgba(255,51,85,.3);border-radius:12px;padding:14px;font-size:.78rem;color:#ff5577;margin-top:15px;text-align:left;line-height:1.5}
@@ -34,22 +30,12 @@ body{display:flex;align-items:center;justify-content:center;padding:20px;min-hei
 </head>
 <body>
 <div class="card">
-<div class="trophy">🎉</div>
+<div class="trophy">&#127881;</div>
 <h1 class="title">KEY CUA BAN</h1>
 <p class="subtitle">Vui long luu lai key ngay bay gio</p>
 <div class="key-box" id="keyDisplay">{{ key }}</div>
-<div class="info">
-<div class="info-item">
-<div class="val">24h</div>
-<div class="lbl">Hieu luc</div>
-</div>
-<div class="info-item">
-<div class="val">1</div>
-<div class="lbl">So lan dung</div>
-</div>
-</div>
 <button class="btn" onclick="copyKey()">COPY KEY</button>
-<button class="btn btn-secondary" onclick="location.href='/'">LAY KEY KHAC</button>
+<a href="/" class="btn btn-secondary">LAY KEY KHAC</a>
 <div class="warning">
 Key nay chi hoat dong tren <b>1 thiet bi duy nhat</b>. Khong chia se cho nguoi khac.
 </div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Key VIP - Free Fire</title>
+<title>Vuot Link - Get Key VIP</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -12,8 +12,6 @@ html,body{height:100%;font-family:Rajdhani,sans-serif;background:var(--bg1);colo
 .bg-anim{position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at 20% 20%,rgba(0,229,255,.12),transparent 40%),radial-gradient(circle at 80% 80%,rgba(168,85,247,.12),transparent 40%),var(--bg1)}
 .bg-anim::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.04) 1px,transparent 1px);background-size:50px 50px;animation:gridMove 20s linear infinite}
 @keyframes gridMove{to{transform:translate(50px,50px)}}
-.particle{position:fixed;width:3px;height:3px;background:var(--cyan);border-radius:50%;pointer-events:none;opacity:.5;box-shadow:0 0 10px var(--cyan);animation:float linear infinite}
-@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translateY(-10vh) scale(1);opacity:0}}
 .container{max-width:520px;margin:0 auto;padding:30px 20px;min-height:100vh;display:flex;align-items:center;justify-content:center}
 .card{width:100%;background:linear-gradient(145deg,rgba(22,22,42,.95),rgba(15,15,26,.98));border:1px solid var(--border);border-radius:24px;padding:35px 28px;position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7);animation:cardIn .6s cubic-bezier(.2,.9,.3,1.2)}
 @keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
@@ -25,18 +23,17 @@ html,body{height:100%;font-family:Rajdhani,sans-serif;background:var(--bg1);colo
 @keyframes blink{50%{opacity:.3}}
 .title{font-family:Orbitron,sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shine 3s linear infinite;letter-spacing:2px;margin-bottom:6px}
 @keyframes shine{to{background-position:200% center}}
-.subtitle{color:var(--muted);font-size:.85rem;letter-spacing:1px}
-.game-grid{display:grid;grid-template-columns:1fr;gap:15px;margin-bottom:25px}
-.game-card{background:var(--input-bg);border:2px solid var(--border);border-radius:16px;padding:18px;cursor:pointer;transition:all .3s;position:relative;display:flex;align-items:center;gap:15px}
-.game-card:hover{border-color:var(--cyan);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,229,255,.2)}
-.game-card.active{border-color:var(--cyan);background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(168,85,247,.1));box-shadow:0 0 30px rgba(0,229,255,.3)}
-.game-img{width:80px;height:80px;border-radius:14px;background:linear-gradient(135deg,#ff6b00,#ff2d00);display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0;box-shadow:0 5px 20px rgba(255,107,0,.4);overflow:hidden}
-.game-img img{width:100%;height:100%;object-fit:cover}
-.game-info{flex:1}
-.game-name{font-family:Orbitron,sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:4px}
-.game-desc{font-size:.78rem;color:var(--muted);letter-spacing:.5px}
-.btn{width:100%;padding:16px;border:none;border-radius:14px;font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .25s;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;box-shadow:0 10px 30px rgba(0,229,255,.3);margin-top:10px}
+.subtitle{color:var(--muted);font-size:.85rem;letter-spacing:1px;margin-bottom:25px}
+.steps{display:flex;justify-content:center;gap:10px;margin-bottom:25px}
+.step-dot{width:40px;height:40px;border-radius:50%;background:var(--input-bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Orbitron;font-size:.9rem;color:var(--muted);transition:all .3s}
+.step-dot.done{background:linear-gradient(135deg,var(--green),var(--cyan));border-color:var(--green);color:#fff;box-shadow:0 0 20px rgba(0,255,136,.4)}
+.step-dot.current{background:linear-gradient(135deg,var(--cyan),var(--purple));border-color:var(--cyan);color:#fff;box-shadow:0 0 20px rgba(0,229,255,.5);animation:pulseStep 1.5s infinite}
+@keyframes pulseStep{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.info-box{background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.2);border-radius:12px;padding:16px;margin-bottom:20px;font-size:.85rem;line-height:1.6;color:var(--cyan);text-align:center}
+.btn{width:100%;padding:16px;border:none;border-radius:14px;font-family:Rajdhani,sans-serif;font-size:1rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .25s;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;box-shadow:0 10px 30px rgba(0,229,255,.3);margin-top:10px;text-decoration:none;display:block;text-align:center}
 .btn:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,229,255,.5)}
+.btn-secondary{background:var(--input-bg);color:var(--text);border:1px solid var(--border);box-shadow:none}
+.btn-secondary:hover{transform:translateY(-2px);border-color:var(--cyan);box-shadow:none}
 .footer{text-align:center;margin-top:20px;font-size:.7rem;color:var(--muted);letter-spacing:1px}
 .footer span{color:var(--cyan)}
 </style>
@@ -46,26 +43,29 @@ html,body{height:100%;font-family:Rajdhani,sans-serif;background:var(--bg1);colo
 <div class="container">
 <div class="card">
 <div class="header">
-<div class="badge">Step 1 / 3</div>
-<h1 class="title">CHON GAME</h1>
-<p class="subtitle">Chon game ban muon lay key</p>
+<div class="badge">Step 3 / 3</div>
+<h1 class="title">VUOT LINK</h1>
+<p class="subtitle">Vuot du {{ total_steps }} lan de lay key</p>
 </div>
-<div class="game-grid">
-<div class="game-card active">
-<div class="game-img">&#128293;</div>
-<div class="game-info">
-<div class="game-name">FREE FIRE</div>
-<div class="game-desc">Lay key VIP - Mien phi</div>
+
+<div class="steps">
+{% for i in range(1, total_steps + 1) %}
+<div class="step-dot {% if i < current_step %}done{% elif i == current_step %}current{% endif %}">
+{% if i < current_step %}OK{% else %}{{ i }}{% endif %}
 </div>
+{% endfor %}
 </div>
+
+<div class="info-box">
+Ban dang o buoc <b>{{ current_step }}/{{ total_steps }}</b><br>
+Nhan nut ben duoi de vuot link. Sau khi vuot xong quay lai day tu dong.
 </div>
-<button class="btn" onclick="goNext()">TIEP TUC</button>
+
+<a href="{{ link4m }}" class="btn">VUOT LINK LAN {{ current_step }}</a>
+<a href="/" class="btn btn-secondary">HUY</a>
+
 <div class="footer">Powered by <span>ANHKHOA System</span> - v8.0 VIP</div>
 </div>
 </div>
-<script>
-(function(){for(var i=0;i<20;i++){var p=document.createElement("div");p.className="particle";p.style.left=Math.random()*100+"%";p.style.animationDuration=(5+Math.random()*10)+"s";p.style.animationDelay=Math.random()*5+"s";if(Math.random()>0.5){p.style.background="#a855f7";p.style.boxShadow="0 0 10px #a855f7"}document.body.appendChild(p)}})();
-function goNext(){window.location.href="/duration"}
-</script>
 </body>
 </html>

@@ -26,9 +26,8 @@ html,body{height:100%;font-family:Rajdhani,sans-serif;background:var(--bg1);colo
 .title{font-family:Orbitron,sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shine 3s linear infinite;letter-spacing:2px;margin-bottom:6px}
 @keyframes shine{to{background-position:200% center}}
 .subtitle{color:var(--muted);font-size:.85rem;letter-spacing:1px}
-.section-label{font-size:.8rem;color:var(--muted);margin-bottom:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
 .duration-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:25px}
-.dur-card{background:var(--input-bg);border:2px solid var(--border);border-radius:16px;padding:24px 16px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;text-align:center}
+.dur-card{background:var(--input-bg);border:2px solid var(--border);border-radius:16px;padding:24px 16px;cursor:pointer;transition:all .3s;text-align:center}
 .dur-card:hover{border-color:var(--cyan);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,229,255,.2)}
 .dur-card.active{border-color:var(--cyan);background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(168,85,247,.1));box-shadow:0 0 30px rgba(0,229,255,.3)}
 .dur-num{font-family:Orbitron,sans-serif;font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
@@ -54,63 +53,69 @@ html,body{height:100%;font-family:Rajdhani,sans-serif;background:var(--bg1);colo
 <h1 class="title">CHON THOI HAN</h1>
 <p class="subtitle">Chon thoi gian hieu luc cua key</p>
 </div>
-<div class="section-label">Thoi han</div>
 <div class="duration-grid">
 <div class="dur-card" data-duration="12">
 <div class="dur-num">12</div>
 <div class="dur-unit">Gio</div>
-<div class="dur-desc">1 lan su dung</div>
+<div class="dur-desc">Vuot 1 lan</div>
 </div>
 <div class="dur-card active" data-duration="24">
 <div class="dur-num">24</div>
 <div class="dur-unit">Gio</div>
-<div class="dur-desc">1 lan su dung</div>
+<div class="dur-desc">Vuot 2 lan</div>
 </div>
 </div>
 <button class="btn" id="btnNext" onclick="goBypass()">TIEP TUC VUOT LINK</button>
 <button class="btn btn-back" onclick="location.href='/'">QUAY LAI</button>
-<div class="footer">Powered by <span>ANHKHOA System</span> - v7.0 VIP</div>
+<div class="footer">Powered by <span>ANHKHOA System</span> - v8.0 VIP</div>
 </div>
 </div>
 <script>
 var duration = 24;
-(function(){
-    for(var i=0;i<20;i++){
-        var p=document.createElement("div");
-        p.className="particle";
-        p.style.left=Math.random()*100+"%";
-        p.style.animationDuration=(5+Math.random()*10)+"s";
-        p.style.animationDelay=Math.random()*5+"s";
-        if(Math.random()>0.5){p.style.background="#a855f7";p.style.boxShadow="0 0 10px #a855f7"}
-        document.body.appendChild(p);
-    }
-})();
-document.querySelectorAll("[data-duration]").forEach(function(el){
-    el.addEventListener("click", function(){
-        document.querySelectorAll("[data-duration]").forEach(function(e){e.classList.remove("active")});
-        el.classList.add("active");
-        duration = parseInt(el.dataset.duration);
+(function(){for(var i=0;i<20;i++){var p=document.createElement("div");p.className="particle";p.style.left=Math.random()*100+"%";p.style.animationDuration=(5+Math.random()*10)+"s";p.style.animationDelay=Math.random()*5+"s";if(Math.random()>0.5){p.style.background="#a855f7";p.style.boxShadow="0 0 10px #a855f7"}document.body.appendChild(p)}})();
+document.querySelectorAll("[data-duration]").forEach(function(el){el.addEventListener("click",function(){document.querySelectorAll("[data-duration]").forEach(function(e){e.classList.remove("active")});el.classList.add("active");duration=parseInt(el.dataset.duration)})});
+
+function getFingerprint(){
+    return new Promise(function(resolve){
+        try{
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext("2d");
+            ctx.textBaseline = "top";
+            ctx.font = "14px Arial";
+            ctx.fillStyle = "#f60";
+            ctx.fillRect(125, 1, 62, 20);
+            ctx.fillStyle = "#069";
+            ctx.fillText("Fingerprint", 2, 15);
+            ctx.fillStyle = "rgba(102,204,0,0.7)";
+            ctx.fillText("Fingerprint", 4, 17);
+            var data = canvas.toDataURL();
+            var gl = document.createElement("canvas").getContext("webgl");
+            var debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+            var gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "unknown";
+            var raw = data + "|" + gpu + "|" + navigator.userAgent + "|" + screen.width + "x" + screen.height + "|" + navigator.language;
+            var hash = 0;
+            for(var i=0;i<raw.length;i++){hash=((hash<<5)-hash)+raw.charCodeAt(i);hash=hash&hash}
+            resolve("FP-" + Math.abs(hash).toString(36));
+        }catch(e){resolve("FP-" + Math.random().toString(36).substring(2))}
     });
-});
+}
+
 async function goBypass(){
     var btn = document.getElementById("btnNext");
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Dang chuan bi...';
     try{
+        var fp = await getFingerprint();
+        localStorage.setItem("device_fp", fp);
         var res = await fetch("/api/start", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             credentials: "same-origin",
-            body: JSON.stringify({game: "freefire", duration: duration})
+            body: JSON.stringify({game: "freefire", duration: duration, device_fp: fp})
         });
         var data = await res.json();
-        if(data.ok){
-            window.location.href = data.bypass_url;
-        } else {
-            alert("Loi: " + data.error);
-            btn.disabled = false;
-            btn.innerHTML = 'TIEP TUC VUOT LINK';
-        }
+        if(data.ok){window.location.href = data.bypass_url}
+        else{alert("Loi: " + data.error);btn.disabled=false;btn.innerHTML='TIEP TUC VUOT LINK'}
     } catch(e){
         alert("Loi ket noi: " + e.message);
         btn.disabled = false;
