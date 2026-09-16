@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: getkey-server-anhkhoa
+    name: getkey-vip
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
