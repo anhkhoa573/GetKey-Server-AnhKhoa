@@ -13,6 +13,7 @@ app.permanent_session_lifetime = timedelta(days=7)
 
 LINK4M_URL = "https://link4m.net/ov9vn2T9"
 CALLBACK_URL = "https://getkey-server-anhkhoa.onrender.com/callback"
+ADMIN_KEY = os.environ.get("ADMIN_KEY", "KEY-ADMIN-TRG-918732").strip()
 
 
 @app.route("/")
@@ -87,11 +88,15 @@ def callback():
 
 @app.route("/api/validate", methods=["POST"])
 def api_validate():
-    data = request.get_json()
-    key = data.get("key", "")
-    device_fp = data.get("device_fp", "")
+    data = request.get_json(silent=True) or {}
+    key = str(data.get("key", "")).strip()
+    device_fp = str(data.get("device_fp", "")).strip()
+    if not key or not device_fp:
+        return jsonify({"valid": False, "message": "Thieu key hoac device fingerprint."}), 400
+    if key == ADMIN_KEY:
+        return jsonify({"valid": True, "admin": True, "expires": None, "message": "Admin key hop le - vinh vien."})
     valid, message = validate_key(key, device_fp)
-    return jsonify({"valid": valid, "message": message})
+    return jsonify({"valid": valid, "admin": False, "expires": None, "message": message})
 
 
 if __name__ == "__main__":

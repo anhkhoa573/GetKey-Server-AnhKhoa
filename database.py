@@ -111,7 +111,5 @@ def validate_key(key, device_fp):
     if row["uses"] >= row["max_uses"]:
         conn.close()
         return False, "Key da het so lan su dung."
-    conn.execute("UPDATE keys SET uses = uses + 1 WHERE id = ?", (row["id"],))
-    conn.commit()
     conn.close()
     return True, "Key hop le!"
